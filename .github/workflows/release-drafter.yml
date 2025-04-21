@@ -22,6 +22,7 @@ jobs:
             echo "SKIP_DRAFTER=true" >> $GITHUB_ENV
           elif [ ! -f .github/release-drafter.yml ]; then
             echo "⚠️ .github/release-drafter.yml not found. Skipping Release Drafter."
+            echo ${GITHUB_REPOSITORY_OWNER}
             echo "SKIP_DRAFTER=true" >> $GITHUB_ENV
           else
             echo "✅ Conditions met. Release Drafter will run."
