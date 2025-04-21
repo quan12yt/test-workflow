@@ -14,18 +14,16 @@ permissions:
 jobs:
   update_release_draft:
     runs-on: ubuntu-latest
+    continue-on-error: false  # Make sure to stop the entire job if any step fails
     steps:
       - name: Check if .github/release-drafter.yml exists
         id: check
         run: |
           if [ ! -f .github/release-drafter.yml ]; then
             echo "⚠️ Config not found. Skipping drafter job."
-            echo "skip=true" >> $GITHUB_ENV
-          else
-            echo "skip=false" >> $GITHUB_ENV
+            exit 0
           fi
       - name: Configure Release Draft Settings
-        if: env.skip != 'true'
         run: |
           if [[ "$GITHUB_EVENT_NAME" == "pull_request" || "$GITHUB_EVENT_NAME" == "pull_request_target" ]]; then
             exit 0
@@ -38,7 +36,6 @@ jobs:
           fi
 
       - uses: release-drafter/release-drafter@v6
-        if: env.skip != 'true'
         with:
           name: ${{ env.DRAFTER_NAME }}
           tag: ${{ env.DRAFTER_TAG }}
