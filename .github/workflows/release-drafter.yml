@@ -15,6 +15,14 @@ jobs:
   update_release_draft:
     runs-on: ubuntu-latest
     steps:
+      - name: Check if release-drafter.yml exists
+        id: check_config
+        run: |
+          if [ ! -f .github/release-drafter.yml ]; then
+            echo "found=false" >> $GITHUB_OUTPUT
+          else
+            echo "found=true" >> $GITHUB_OUTPUT
+          fi
       - name: Configure Release Draft Settings
         run: |
           if [[ "$GITHUB_EVENT_NAME" == "pull_request" || "$GITHUB_EVENT_NAME" == "pull_request_target" ]]; then
