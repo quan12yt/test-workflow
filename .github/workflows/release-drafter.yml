@@ -18,13 +18,9 @@ jobs:
       - name: Check if .github/release-drafter.yml exists
         id: check
         run: |
-          if [ -f .github/release-drafter.yml ]; then
-            echo "✅ Config found"
-            echo "exists=true" >> $GITHUB_OUTPUT
-          else
+          if [ ! -f .github/release-drafter.yml ]; then
             echo "⚠️ Config not found. Skipping drafter job."
-            echo "exists=false" >> $GITHUB_OUTPUT
-            exit 0
+            exit 0  # Immediately exit and skip the job
           fi
       - name: Configure Release Draft Settings
         run: |
