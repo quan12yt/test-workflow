@@ -24,6 +24,7 @@ jobs:
           else
             echo "⚠️ Config not found. Skipping drafter job."
             echo "exists=false" >> $GITHUB_OUTPUT
+            exit 0
           fi
       - name: Configure Release Draft Settings
         run: |
