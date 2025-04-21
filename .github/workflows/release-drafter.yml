@@ -14,8 +14,14 @@ permissions:
 jobs:
   update_release_draft:
     runs-on: ubuntu-latest
-    if: ${{ fileExists('.github/release-drafter.yml') }}  # Global check for file existence
     steps:
+      - name: Check if .github/release-drafter.yml exists
+        id: check
+        run: |
+          if [ ! -f .github/release-drafter.yml ]; then
+            echo "⚠️ Config not found. Skipping drafter job."
+            exit 0  # Exit early if config is missing
+          fi
       - name: Configure Release Draft Settings
         run: |
           if [[ "$GITHUB_EVENT_NAME" == "pull_request" || "$GITHUB_EVENT_NAME" == "pull_request_target" ]]; then
