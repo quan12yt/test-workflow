@@ -20,7 +20,7 @@ jobs:
         run: |
           if [ ! -f .github/release-drafter.yml ]; then
             echo "⚠️ Config not found. Skipping drafter job."
-           return
+           return 0
           fi
       - name: Configure Release Draft Settings
         run: |
