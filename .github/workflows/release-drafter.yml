@@ -17,12 +17,12 @@ jobs:
     steps:
       - name: Check if release drafter should run
         run: |
-          if [[ "${GITHUB_REPOSITORY_OWNER}" != "quanasd12yt" && ! -f .github/release-drafter.yml ]]; then
-            echo "⚠️ Not running in AxonIvy org. Skipping Release Drafter."
-            echo "SKIP_DRAFTER=true" >> $GITHUB_ENV
-          else
+          if [[ "${GITHUB_REPOSITORY_OWNER}" == "quan12yt" && -f .github/release-drafter.yml ]]; then
             echo "✅ Conditions met. Release Drafter will run."
             echo "SKIP_DRAFTER=false" >> $GITHUB_ENV
+          else
+            echo "⚠️ Not running in AxonIvy org. Skipping Release Drafter."
+            echo "SKIP_DRAFTER=true" >> $GITHUB_ENV
           fi
 
       - name: Configure Release Draft Settings
