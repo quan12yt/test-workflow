@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Check if release drafter should run
         run: |
-          if [[ "${GITHUB_REPOSITORY_OWNER}" != "quan12yt" && ! -f .github/release-drafter.yml ]]; then
+          if [[ "${GITHUB_REPOSITORY_OWNER}" != "quanasd12yt" && ! -f .github/release-drafter.yml ]]; then
             echo "⚠️ Not running in AxonIvy org. Skipping Release Drafter."
             echo "SKIP_DRAFTER=true" >> $GITHUB_ENV
           else
