@@ -1,0 +1,57 @@
+name: Reusable Release-Build
+
+on: 
+  workflow_call:
+    inputs:
+      javaVersion:
+        type: number
+        default: 21
+      mvnVersion:
+        type: string
+        default: 3.9.8
+      mvnArgs:
+        type: string
+        required: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Get branch name
+      id: branch-name
+      uses: tj-actions/branch-names@v8
+
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ inputs.javaVersion }}
+        distribution: temurin
+        server-id: github
+
+    - name: Setup Maven
+      uses: stCarolas/setup-maven@v5
+      with:
+        maven-version: ${{ inputs.mvnVersion }}
+
+    - name: Configure Git
+      run: |
+        git config user.email "${{ github.actor }}@users.noreply.github.com"
+        git config user.name "${{ github.actor }}"
+        git checkout -b new-release
+
+    - name: Build with Maven
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: mvn --batch-mode -Darguments="-Dmaven.test.skip=true -DaltDeploymentRepository=github::https://maven.pkg.github.com/axonivy-market/${{ github.event.repository.name }}" release:prepare release:perform ${{ inputs.mvnArgs }}
+
+    - name: Create pull request
+      uses: repo-sync/pull-request@v2
+      with:
+        destination_branch: ${{ steps.branch-name.outputs.current_branch }}
+        source_branch: new-release
+        pr_title: "Release"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        pr_assignee: ${{ github.actor }}
