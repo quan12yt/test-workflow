@@ -1,0 +1,7 @@
+name: Release-Build-Test
+
+jobs:
+  build:
+    uses: ./.github/workflows/release.yml
+    with:
+      mvnArgs: -DignoreSnapshots=true
