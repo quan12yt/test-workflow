@@ -11,6 +11,6 @@ on:
 
 jobs:
   build:
-    uses: .github/workflows/release.yml@dev-release
+    uses: quan12yt/test-workflow/.github/workflows/release.yml@dev-release
     with:
       mvnArgs: -DignoreSnapshots=true -DreleaseVersion=${{ inputs.releaseVersion }}
