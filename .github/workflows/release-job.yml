@@ -11,6 +11,6 @@ on:
 
 jobs:
   build:
-    uses: ./release.yml
+    uses: ./.github/workflows/release.yml
     with:
       mvnArgs: -DignoreSnapshots=true -DreleaseVersion=${{ inputs.releaseVersion }}
