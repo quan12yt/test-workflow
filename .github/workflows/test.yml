@@ -1,5 +1,8 @@
 name: Release-Build-Test
 
+on:
+  workflow_dispatch: 
+
 jobs:
   build:
     uses: ./.github/workflows/release.yml
